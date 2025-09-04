@@ -1,4 +1,5 @@
 import requests
+import os
 def get_weather_data (city, api_key):
     base_url = "http://api.openweathermap.org/data/2.5/weather"
     full_url = f"{base_url}?q={city}&appid={api_key}&units=metric"
@@ -12,13 +13,17 @@ def get_weather_data (city, api_key):
     else:
         return f"Error: Could not retrieve weather data: Status code {response.status_code}"
     
-My_API_KEY = "fb72866f2d6f4d878e35877b5ae44971"
-city1 = "Bihar"
-city2 = "Halua"
+MY_API_KEY = os.getenv("OPENWEATHER_API_KEY")
 
-weather_report = get_weather_data(city1, My_API_KEY)
-print(weather_report)
-weather_report1 = get_weather_data(city2, My_API_KEY)
-print(weather_report1)
+if not MY_API_KEY:
+    print("Error: OPENWEATHER_API_KEY environment variable not set.")
+else:
+    city1 = "Bihar"
+    city2 = "Citydoesnotexist"
+
+    weather_report = get_weather_data(city1, MY_API_KEY)
+    print(weather_report)
+    weather_report1 = get_weather_data(city2, MY_API_KEY)
+    print(weather_report1)
 
 
